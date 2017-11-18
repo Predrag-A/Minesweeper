@@ -23,12 +23,21 @@ namespace Data
 
         public Panel()
         {
-            Type = Type.Empty;
+            _type = Type.Empty;
+            _value = 0;
         }
 
         public Panel(Type type)
         {
-            Type = Type;
+            _type = type;
+            _value = 0;
         }
+
+        public Panel(Type type, int value)
+        {
+            _type = type;
+            _value = value;
+        }
+        
     }
 }

@@ -28,33 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // btn
             // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(25, 25);
-            this.button1.TabIndex = 0;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btn.BackgroundImage = global::Minesweeper.Properties.Resources.empty;
+            this.btn.Location = new System.Drawing.Point(0, 0);
+            this.btn.Margin = new System.Windows.Forms.Padding(0);
+            this.btn.Name = "btn";
+            this.btn.Size = new System.Drawing.Size(25, 25);
+            this.btn.TabIndex = 0;
+            this.btn.UseVisualStyleBackColor = false;
+            this.btn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_MouseDown);
             // 
             // Cell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
+            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.BackgroundImage = global::Minesweeper.Properties.Resources._1;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.Controls.Add(this.btn);
+            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Cell";
-            this.Size = new System.Drawing.Size(25, 25);
+            this.Size = new System.Drawing.Size(44, 51);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn;
     }
 }

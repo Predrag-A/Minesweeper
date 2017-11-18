@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menu = new System.Windows.Forms.MenuStrip();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.easy9x9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.medium16x16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,18 +37,22 @@
             this.customToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTime = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip1.SuspendLayout();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // menu
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gameToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(271, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem});
+            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.Name = "menu";
+            this.menu.Size = new System.Drawing.Size(271, 24);
+            this.menu.TabIndex = 0;
+            this.menu.Text = "menuStrip1";
             // 
             // gameToolStripMenuItem
             // 
@@ -64,25 +68,32 @@
             // easy9x9ToolStripMenuItem
             // 
             this.easy9x9ToolStripMenuItem.Name = "easy9x9ToolStripMenuItem";
-            this.easy9x9ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.easy9x9ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.easy9x9ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.easy9x9ToolStripMenuItem.Text = "Easy 9x9";
+            this.easy9x9ToolStripMenuItem.Click += new System.EventHandler(this.easy9x9ToolStripMenuItem_Click);
             // 
             // medium16x16ToolStripMenuItem
             // 
             this.medium16x16ToolStripMenuItem.Name = "medium16x16ToolStripMenuItem";
-            this.medium16x16ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.medium16x16ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.medium16x16ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.medium16x16ToolStripMenuItem.Text = "Medium 16x16";
+            this.medium16x16ToolStripMenuItem.Click += new System.EventHandler(this.medium16x16ToolStripMenuItem_Click);
             // 
             // expertToolStripMenuItem
             // 
             this.expertToolStripMenuItem.Name = "expertToolStripMenuItem";
-            this.expertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.expertToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.expertToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.expertToolStripMenuItem.Text = "Expert 16x30";
+            this.expertToolStripMenuItem.Click += new System.EventHandler(this.expertToolStripMenuItem_Click);
             // 
             // customToolStripMenuItem
             // 
             this.customToolStripMenuItem.Name = "customToolStripMenuItem";
-            this.customToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.customToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.customToolStripMenuItem.Text = "Custom";
             // 
             // lblTime
@@ -90,9 +101,21 @@
             this.lblTime.AutoSize = true;
             this.lblTime.Location = new System.Drawing.Point(13, 296);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(53, 13);
+            this.lblTime.Size = new System.Drawing.Size(49, 13);
             this.lblTime.TabIndex = 1;
-            this.lblTime.Text = "hh:MM:ss";
+            this.lblTime.Text = "00:00:00";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.loadToolStripMenuItem.Text = "Load";
             // 
             // MainForm
             // 
@@ -102,12 +125,12 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(271, 321);
             this.Controls.Add(this.lblTime);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.menu);
+            this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
             this.Text = "Minesweeper";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menu.ResumeLayout(false);
+            this.menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,7 +138,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem easy9x9ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem medium16x16ToolStripMenuItem;
@@ -123,6 +146,8 @@
         private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
     }
 }
 

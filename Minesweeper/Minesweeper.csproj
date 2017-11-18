@@ -67,17 +67,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -86,6 +87,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\flag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\mineExploded.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{b2456937-23d7-427c-9114-913b9bfe475d}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
