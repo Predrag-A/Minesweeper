@@ -12,8 +12,10 @@ using System.IO;
 namespace Minesweeper.Controls
 {
     public partial class Cell : UserControl
-    {      
-        
+    {
+
+        #region Attributes
+
         Data.Panel _p;
         int _i;
         int _j;
@@ -22,17 +24,28 @@ namespace Minesweeper.Controls
         List<Cell> _mines;
         string respath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString();
 
+        #endregion
+
+        #region Properties
 
         public Data.Panel Panel { get => _p; set => _p = value; }
         public Cell[,] ParentMatrix { get => _parentMatrix; set => _parentMatrix = value; }
         public int XCoord { get => _i; set => _i = value; }
         public int YCoord { get => _j; set => _j = value; }
 
+        #endregion
+
+        #region Constructors
+
         public Cell()
         {
             InitializeComponent();
             this.Size = new Size(25, 25);
         }
+
+        #endregion
+
+        #region Methods
 
         public void SetField()
         {
@@ -194,6 +207,10 @@ namespace Minesweeper.Controls
             return count;
         }
 
+        #endregion
+
+        #region Events
+
         private void btn_MouseDown(object sender, MouseEventArgs e)
         {
             if (((MainForm)this.ParentForm).FirstClick)
@@ -320,5 +337,8 @@ namespace Minesweeper.Controls
                 RevealAll();
             }
         }
+
+    #endregion
+
     }
 }

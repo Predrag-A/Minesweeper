@@ -12,10 +12,17 @@ namespace Data
     [Serializable]
     public class Panel
     {
+
+        #region Attributes
+
         Type _type;
         int _value;
         bool _revealed;
         bool _flagged;
+
+        #endregion
+
+        #region Properties
 
         [XmlElementAttribute("Type")]
         public Type Type { get => _type; set => _type = value; }
@@ -25,6 +32,10 @@ namespace Data
         public bool Revealed { get => _revealed; set => _revealed = value; }
         [XmlElementAttribute("Flagged")]
         public bool Flagged { get => _flagged; set => _flagged = value; }
+
+        #endregion
+
+        #region Constructors
 
         public Panel()
         {
@@ -58,6 +69,10 @@ namespace Data
             _flagged = flagged;
         }
 
+        #endregion
+
+        #region Methods
+
         public void Save(XmlTextWriter wr)
         {
             XmlSerializer sr = new XmlSerializer(typeof(Panel));
@@ -65,6 +80,8 @@ namespace Data
             
             
         }
-        
+
+        #endregion
+
     }
 }

@@ -12,6 +12,9 @@ namespace Minesweeper
 {
     public partial class SizeForm : Form
     {
+
+        #region Properties
+
         public int XResult
         {
             get;
@@ -30,6 +33,10 @@ namespace Minesweeper
             set;
         }
 
+        #endregion
+
+        #region Constructors
+
         public SizeForm()
         {
             InitializeComponent();
@@ -37,6 +44,10 @@ namespace Minesweeper
             YResult = 9;
             MineResult = 10;
         }
+
+        #endregion
+
+        #region Events
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -71,5 +82,8 @@ namespace Minesweeper
             txtMines.Text = tbarMines.Value.ToString();
             MineResult = tbarMines.Value;
         }
+
+        #endregion
+
     }
 }

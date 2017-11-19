@@ -16,15 +16,16 @@ using System.Xml;
 
 namespace Minesweeper
 {
-    [Serializable]
     public partial class MainForm : Form
     {
 
         /*
          * TODO:
          * XML Serialization
-         * Format regions
          */
+
+        #region Attributes
+
         int _x;
         int _y;
         int _minecount;
@@ -34,24 +35,30 @@ namespace Minesweeper
         bool _firstClick;
         DateTime _time;
 
-        [XmlIgnore]
+        #endregion
+
+        #region Properties
+
         public int FlagCount { get => _flagCount; set => _flagCount = value; }
-        [XmlElementAttribute("X")]
         public int X { get => _x; }
-        [XmlElementAttribute("Y")]
         public int Y { get => _y; }
-        [XmlIgnore]
         public bool FirstClick { get => _firstClick; set => _firstClick = value; }
-        [XmlIgnore]
         public DateTime Time { get => _time; set => _time = value; }
-        [XmlElementAttribute("Minecount")]
         public int Minecount { get => _minecount;}
+
+        #endregion
+
+        #region Constructor
 
         public MainForm()
         {
             InitializeComponent();
             DrawField(9, 9, 10);
         }
+
+        #endregion
+
+        #region Methods
 
         void DrawField(int x, int y, int minecount)
         {
@@ -151,7 +158,11 @@ namespace Minesweeper
                 return null;
             return _mineList;
         }
-        
+
+        #endregion
+
+        #region Events
+
         private void easy9x9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
@@ -200,7 +211,7 @@ namespace Minesweeper
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
-            if (sfd.ShowDialog() == DialogResult.OK)
+            /*if (sfd.ShowDialog() == DialogResult.OK)
             {
                 var xmlserializer = new XmlSerializer(typeof(MainForm));
                 var sw = new StringWriter();
@@ -216,7 +227,9 @@ namespace Minesweeper
                         }
                 }
 
-            }
+            }*/
         }
+        #endregion
+
     }
 }
