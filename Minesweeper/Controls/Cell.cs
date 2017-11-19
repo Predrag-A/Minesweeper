@@ -18,13 +18,18 @@ namespace Minesweeper.Controls
         int _i;
         int _j;
         int clickCount = 0;
-        string respath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString();
         Cell[,] _parentMatrix;
+        bool _revealed = false;
+        bool _flagged = false;
+        string respath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString();
+
 
         public Data.Panel Panel { get => _p; set => _p = value; }
         public Cell[,] ParentMatrix { get => _parentMatrix; set => _parentMatrix = value; }
         public int XCoord { get => _i; set => _i = value; }
         public int YCoord { get => _j; set => _j = value; }
+        public bool Revealed { get => _revealed; }
+        public bool Flagged { get => _flagged; }
 
         public Cell()
         {
@@ -35,7 +40,7 @@ namespace Minesweeper.Controls
         public void SetField()
         {
             if (_p.Type == Data.Type.Empty)
-                this.BackgroundImage = null;
+                this.BackgroundImage = Image.FromFile(respath + "\\res\\emptyBG.png");
             else if (_p.Type == Data.Type.Mine)
                 this.BackgroundImage = Image.FromFile(respath + "\\res\\mine.png");
             else if (_p.Type == Data.Type.Number)
@@ -45,11 +50,14 @@ namespace Minesweeper.Controls
         public void Reveal()
         {
             btn.Visible = false;
+            _revealed = true;
         }
 
         //Some long shit
-        public List<Cell> GetNeighbors(int xDim, int yDim)
-        {            
+        public List<Cell> GetNeighbors()
+        {
+            int xDim = ((MainForm)this.ParentForm).X;
+            int yDim = ((MainForm)this.ParentForm).Y;
             List<Cell> list = new List<Cell>();
 
             if (_i == 0 && _j == 0)
@@ -134,39 +142,153 @@ namespace Minesweeper.Controls
             return list;
         }
 
+        void RevealEmpty(Cell c)
+        {
+            List<Cell> list = c.GetNeighbors();
+            foreach(var cell in list)
+            {
+                if (cell.Panel.Type == Data.Type.Empty && !cell.Flagged) {
+                    if (!cell.Revealed)
+                    {
+                        cell.Reveal();
+                        RevealEmpty(cell);
+                    }
+                }
+                else if (cell.Panel.Type == Data.Type.Number && !cell.Flagged)
+                    cell.Reveal();
+            }
+        }
+
+        public void RevealAll()
+        {
+            for (int i = 0; i < ((MainForm)this.ParentForm).X; i++)
+                for (int j = 0; j < ((MainForm)this.ParentForm).Y; j++)
+                    if (!_parentMatrix[i, j].Revealed)
+                    {
+                        if (_parentMatrix[i, j].Panel.Type == Data.Type.Mine)
+                        {
+                            if (!_parentMatrix[i, j].Flagged)
+                                _parentMatrix[i, j].Reveal();
+                        }
+                        else if(_parentMatrix[i, j].Flagged)
+                        {
+                            _parentMatrix[i,j].BackgroundImage = Image.FromFile(respath + "\\res\\mineWrong.png");
+                            _parentMatrix[i, j].Reveal();
+                        }
+                        else
+                            _parentMatrix[i, j].Reveal();
+
+                            
+                    }
+        }
+        
+        int setValue()
+        {
+            int count = 0;
+            var list = this.GetNeighbors();
+            foreach (var cell in list)
+                if (cell.Panel.Type == Data.Type.Mine)
+                    count++;
+            if (count == 0)
+                this.Panel.Type = Data.Type.Empty;
+            this.Panel.Value = count;
+            return count;
+        }
 
         private void btn_MouseDown(object sender, MouseEventArgs e)
         {
+            if (((MainForm)this.ParentForm).CheckEndState())
+            {
+                ((MainForm)this.ParentForm).timer.Stop();
+            }
 
+            if (((MainForm)this.ParentForm).FirstClick)
+            {
+                ((MainForm)this.ParentForm).Time = DateTime.Now;
+                ((MainForm)this.ParentForm).timer.Start();
+            }
             if (e.Button == MouseButtons.Left && clickCount == 0)
             {
-                this.Controls[0].Visible = false;
-                //TODO: Reveal everything
+                if (((MainForm)this.ParentForm).FirstClick && this.Panel.Type == Data.Type.Mine)
+                {
+                    ((MainForm)this.ParentForm).FirstClick = false;
+
+
+                    int count = this.setValue();                    
+
+                    if (count == 0)
+                    {
+                        this.Panel.Type = Data.Type.Empty;
+                        this.Panel.Value = 0;
+                    }
+                    else
+                    {
+                        this.Panel.Type = Data.Type.Number;
+                        this.Panel.Value = count;
+                    }
+                    this.SetField();
+
+                    var list = this.GetNeighbors();
+                    foreach (var c in list)
+                    {
+                        c.setValue();
+                        c.SetField();
+                    }
+                    if(count == 0)
+                        RevealEmpty(this);
+
+
+                    _parentMatrix[0, 0].Panel.Type = Data.Type.Mine;
+                    _parentMatrix[0, 0].Panel.Value = 0;
+                    _parentMatrix[0, 0].SetField();
+
+                    var list0 = _parentMatrix[0, 0].GetNeighbors();
+                    foreach(var c in list0)
+                    {
+                        c.setValue();
+                        c.SetField();
+                    }
+                    Reveal(); 
+                }
+
+                else
+                {
+                    ((MainForm)this.ParentForm).FirstClick = false;
+                    Reveal();
+                    if (this.Panel.Type == Data.Type.Empty)
+                        RevealEmpty(this);
+                    if (this.Panel.Type == Data.Type.Mine)
+                    {
+                        ((MainForm)(this.ParentForm)).GameOver();
+                        this.BackgroundImage = Image.FromFile(respath + "\\res\\mineExploded.png");
+                        RevealAll();
+                    }
+                }
+
             }
             else if (e.Button == MouseButtons.Right)
             {
                 if (clickCount == 0)
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\flag.png");
+                    _flagged = true;
+                    ((MainForm)(this.ParentForm)).FlagCount++;
+                    ((MainForm)(this.ParentForm)).lblFlag.Text = (((MainForm)(this.ParentForm)).Minecount - ((MainForm)(this.ParentForm)).FlagCount).ToString();
                 }
                 else if (clickCount == 1)
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\q.png");
-                    ((MainForm)(this.ParentForm)).Flagcount++;
-                    
+                    _flagged = false;
+                    ((MainForm)(this.ParentForm)).FlagCount--;
+                    ((MainForm)(this.ParentForm)).lblFlag.Text = (((MainForm)(this.ParentForm)).Minecount - ((MainForm)(this.ParentForm)).FlagCount).ToString();
                 }
                 else
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\empty.png");
-                    ((MainForm)(this.ParentForm)).Flagcount--;
                     clickCount = -1;
                 }
 
                 clickCount++;
-            }
-            else if (e.Button == MouseButtons.Middle)
-            {
-                //TODO: Reveal all adjacent 
             }
         }
     }

@@ -9,18 +9,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
+using System.Diagnostics;
 
 namespace Minesweeper
 {
     public partial class MainForm : Form
     {
+
+        /*
+         * TODO:
+         * Custom size support
+         * XML Serialization
+         * Format regions
+         */
         int _x;
         int _y;
         int _minecount;
         Cell[,] _matrix;
-        int _flagcount;
+        List<Cell> _mineList;
+        int _flagCount;
+        bool _firstClick;
+        DateTime _time;
 
-        public int Flagcount { get => _flagcount; set => _flagcount = value; }
+        public int FlagCount { get => _flagCount; set => _flagCount = value; }
+        public int X { get => _x; }
+        public int Y { get => _y; }
+        public bool FirstClick { get => _firstClick; set => _firstClick = value; }
+        public DateTime Time { get => _time; set => _time = value; }
+        public int Minecount { get => _minecount;}
 
         public MainForm()
         {
@@ -34,7 +50,12 @@ namespace Minesweeper
             _x = x;
             _y = y;
             _minecount = minecount;
-            Flagcount = 0;
+            _mineList = new List<Cell>();
+            _flagCount = 0;
+            _firstClick = true;
+            lblTime.Text = "00:00:00";
+            lblFlag.Text = Minecount.ToString();
+            
 
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
@@ -53,6 +74,7 @@ namespace Minesweeper
                     _matrix[i, j] = btn;
                 }
             lblTime.Location = new Point(0, y * 25 + 24);
+            lblFlag.Location = new Point(x * 21, y * 25 + 24);
             PopulateMines();
             PopulateNumbers();
         }
@@ -75,29 +97,29 @@ namespace Minesweeper
             Random rnd = new Random();
             int x, y;
             int counter = 0;
-            while (counter < _minecount)
+            while (counter < Minecount)
             {
-                x = rnd.Next(0, _x);
-                y = rnd.Next(0, _y);
-                if(_matrix[x,y].Panel.Type != Data.Type.Mine)
+                x = rnd.Next(0, X);
+                y = rnd.Next(0, Y);
+                if(_matrix[x,y].Panel.Type != Data.Type.Mine && (x!=0 || y!=0))
                 {
                     _matrix[x, y].Panel.Type = Data.Type.Mine;
                     _matrix[x, y].SetField();
                     counter++;
+                    _mineList.Add(_matrix[x, y]);
                 }
             }
         }
         
-        
         void PopulateNumbers()
         {
-            for(int i=0; i<_x;i++)
-                for(int j=0; j < _y; j++)                
+            for(int i=0; i<X;i++)
+                for(int j=0; j < Y; j++)                
                     if(_matrix[i,j].Panel.Type != Data.Type.Mine)
                     {
                         int counter = 0;
 
-                        List<Cell> list = _matrix[i, j].GetNeighbors(_x, _y);
+                        List<Cell> list = _matrix[i, j].GetNeighbors();
                         foreach (var c in list)
                             if (c.Panel.Type == Data.Type.Mine)
                                 counter++;
@@ -109,6 +131,21 @@ namespace Minesweeper
                             _matrix[i, j].SetField();
                         }
                     } 
+        }
+
+        public bool CheckEndState()
+        {
+            foreach (var m in _mineList)
+                if (!m.Flagged)
+                    return false;
+            if ((_flagCount - _minecount) != 0)
+                return false;
+            return true;
+        }
+
+        public void GameOver()
+        {
+            timer.Stop();
         }
 
         private void easy9x9ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -127,6 +164,23 @@ namespace Minesweeper
         {
             ClearField();
             DrawField(16, 30, 99);
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            lblTime.Text = DateTime.Now.Subtract(_time).ToString("hh\\:mm\\:ss");
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearField();
+            DrawField(_x, _y, Minecount);
+        }
+
+        private void endToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _matrix[0, 0].RevealAll();
+            timer.Stop();
         }
     }
 }
