@@ -10,15 +10,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using System.Diagnostics;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace Minesweeper
 {
+    [Serializable]
     public partial class MainForm : Form
     {
 
         /*
          * TODO:
-         * Custom size support
          * XML Serialization
          * Format regions
          */
@@ -31,11 +34,17 @@ namespace Minesweeper
         bool _firstClick;
         DateTime _time;
 
+        [XmlIgnore]
         public int FlagCount { get => _flagCount; set => _flagCount = value; }
+        [XmlElementAttribute("X")]
         public int X { get => _x; }
+        [XmlElementAttribute("Y")]
         public int Y { get => _y; }
+        [XmlIgnore]
         public bool FirstClick { get => _firstClick; set => _firstClick = value; }
+        [XmlIgnore]
         public DateTime Time { get => _time; set => _time = value; }
+        [XmlElementAttribute("Minecount")]
         public int Minecount { get => _minecount;}
 
         public MainForm()
@@ -136,7 +145,7 @@ namespace Minesweeper
         public List<Cell> CheckEndState()
         {
             foreach (var m in _mineList)
-                if (!m.Flagged)
+                if (!m.Panel.Flagged)
                     return null;
             if ((_flagCount - _minecount) != 0)
                 return null;
@@ -185,6 +194,28 @@ namespace Minesweeper
             {
                 ClearField();
                 DrawField(frm.XResult, frm.YResult, frm.MineResult);
+            }
+        }
+
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                var xmlserializer = new XmlSerializer(typeof(MainForm));
+                var sw = new StringWriter();
+                using (var writer = new XmlTextWriter(sfd.FileName, Encoding.Unicode))
+                {
+                    writer.Settings.Indent = true;
+                    xmlserializer.Serialize(writer, this);
+
+                    for(int i=0; i<_x; i++)
+                        for(int j = 0; j < _y; j++)
+                        {
+                            _matrix[i, j].Panel.Save(writer);
+                        }
+                }
+
             }
         }
     }

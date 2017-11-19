@@ -20,8 +20,6 @@ namespace Minesweeper.Controls
         int clickCount = 0;
         Cell[,] _parentMatrix;
         List<Cell> _mines;
-        bool _revealed = false;
-        bool _flagged = false;
         string respath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString();
 
 
@@ -29,8 +27,6 @@ namespace Minesweeper.Controls
         public Cell[,] ParentMatrix { get => _parentMatrix; set => _parentMatrix = value; }
         public int XCoord { get => _i; set => _i = value; }
         public int YCoord { get => _j; set => _j = value; }
-        public bool Revealed { get => _revealed; }
-        public bool Flagged { get => _flagged; }
 
         public Cell()
         {
@@ -51,7 +47,7 @@ namespace Minesweeper.Controls
         public void Reveal()
         {
             btn.Visible = false;
-            _revealed = true;
+            this.Panel.Revealed = true;
         }
 
         //Some long shit
@@ -148,14 +144,14 @@ namespace Minesweeper.Controls
             List<Cell> list = c.GetNeighbors();
             foreach(var cell in list)
             {
-                if (cell.Panel.Type == Data.Type.Empty && !cell.Flagged) {
-                    if (!cell.Revealed)
+                if (cell.Panel.Type == Data.Type.Empty && !cell.Panel.Flagged) {
+                    if (!cell.Panel.Revealed)
                     {
                         cell.Reveal();
                         RevealEmpty(cell);
                     }
                 }
-                else if (cell.Panel.Type == Data.Type.Number && !cell.Flagged)
+                else if (cell.Panel.Type == Data.Type.Number && !cell.Panel.Flagged)
                     cell.Reveal();
             }
         }
@@ -164,14 +160,16 @@ namespace Minesweeper.Controls
         {
             for (int i = 0; i < ((MainForm)this.ParentForm).X; i++)
                 for (int j = 0; j < ((MainForm)this.ParentForm).Y; j++)
-                    if (!_parentMatrix[i, j].Revealed)
+                    if (!_parentMatrix[i, j].Panel.Revealed)
                     {
                         if (_parentMatrix[i, j].Panel.Type == Data.Type.Mine)
                         {
-                            if (!_parentMatrix[i, j].Flagged)
+                            if (!_parentMatrix[i, j].Panel.Flagged)
                                 _parentMatrix[i, j].Reveal();
+                            else
+                                _parentMatrix[i, j].btn.Enabled = false;
                         }
-                        else if(_parentMatrix[i, j].Flagged)
+                        else if(_parentMatrix[i, j].Panel.Flagged)
                         {
                             _parentMatrix[i,j].BackgroundImage = Image.FromFile(respath + "\\res\\mineWrong.png");
                             _parentMatrix[i, j].Reveal();
@@ -294,14 +292,14 @@ namespace Minesweeper.Controls
                 if (clickCount == 0)
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\flag.png");
-                    _flagged = true;
+                    Panel.Flagged = true;
                     ((MainForm)(this.ParentForm)).FlagCount++;
                     ((MainForm)(this.ParentForm)).lblFlag.Text = (((MainForm)(this.ParentForm)).Minecount - ((MainForm)(this.ParentForm)).FlagCount).ToString();
                 }
                 else if (clickCount == 1)
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\q.png");
-                    _flagged = false;
+                    Panel.Flagged = false;
                     ((MainForm)(this.ParentForm)).FlagCount--;
                     ((MainForm)(this.ParentForm)).lblFlag.Text = (((MainForm)(this.ParentForm)).Minecount - ((MainForm)(this.ParentForm)).FlagCount).ToString();
                 }
@@ -320,10 +318,6 @@ namespace Minesweeper.Controls
             {
                 ((MainForm)this.ParentForm).timer.Stop();
                 RevealAll();
-                foreach(var m in _mines)
-                {
-                    m.btn.Enabled = false;
-                }
             }
         }
     }

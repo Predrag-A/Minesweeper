@@ -48,9 +48,12 @@
             this.medium16x16ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.expert16x30ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lblFlag = new System.Windows.Forms.Label();
+            this.sfd = new System.Windows.Forms.SaveFileDialog();
+            this.ofd = new System.Windows.Forms.OpenFileDialog();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,9 +129,7 @@
             // menu
             // 
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gameToolStripMenuItem1,
-            this.loadToolStripMenuItem1,
-            this.saveToolStripMenuItem1});
+            this.gameToolStripMenuItem1});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(271, 24);
@@ -144,7 +145,10 @@
             this.easy9x9ToolStripMenuItem1,
             this.medium16x16ToolStripMenuItem1,
             this.expert16x30ToolStripMenuItem,
-            this.customToolStripMenuItem1});
+            this.customToolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.saveToolStripMenuItem1,
+            this.loadToolStripMenuItem1});
             this.gameToolStripMenuItem1.Name = "gameToolStripMenuItem1";
             this.gameToolStripMenuItem1.Size = new System.Drawing.Size(50, 20);
             this.gameToolStripMenuItem1.Text = "Game";
@@ -202,17 +206,25 @@
             this.customToolStripMenuItem1.Text = "Custom";
             this.customToolStripMenuItem1.Click += new System.EventHandler(this.customToolStripMenuItem1_Click);
             // 
-            // loadToolStripMenuItem1
+            // toolStripMenuItem2
             // 
-            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(45, 20);
-            this.loadToolStripMenuItem1.Text = "Load";
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(167, 6);
             // 
             // saveToolStripMenuItem1
             // 
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
             this.saveToolStripMenuItem1.Text = "Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            // 
+            // loadToolStripMenuItem1
+            // 
+            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
+            this.loadToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.loadToolStripMenuItem1.Text = "Load";
             // 
             // lblFlag
             // 
@@ -223,6 +235,14 @@
             this.lblFlag.Size = new System.Drawing.Size(21, 24);
             this.lblFlag.TabIndex = 3;
             this.lblFlag.Text = "0";
+            // 
+            // sfd
+            // 
+            this.sfd.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
+            // 
+            // ofd
+            // 
+            this.ofd.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
             // 
             // MainForm
             // 
@@ -260,12 +280,15 @@
         private System.Windows.Forms.ToolStripMenuItem medium16x16ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem expert16x30ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem endToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         public System.Windows.Forms.Label lblFlag;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
+        private System.Windows.Forms.SaveFileDialog sfd;
+        private System.Windows.Forms.OpenFileDialog ofd;
     }
 }
 

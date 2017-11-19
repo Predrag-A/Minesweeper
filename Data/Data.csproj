@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Panel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Type.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
