@@ -19,6 +19,7 @@ namespace Minesweeper.Controls
         int _j;
         int clickCount = 0;
         Cell[,] _parentMatrix;
+        List<Cell> _mines;
         bool _revealed = false;
         bool _flagged = false;
         string respath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString();
@@ -197,11 +198,6 @@ namespace Minesweeper.Controls
 
         private void btn_MouseDown(object sender, MouseEventArgs e)
         {
-            if (((MainForm)this.ParentForm).CheckEndState())
-            {
-                ((MainForm)this.ParentForm).timer.Stop();
-            }
-
             if (((MainForm)this.ParentForm).FirstClick)
             {
                 ((MainForm)this.ParentForm).Time = DateTime.Now;
@@ -237,12 +233,38 @@ namespace Minesweeper.Controls
                     if(count == 0)
                         RevealEmpty(this);
 
+                                        
+                    int indexX, indexY=0;
+                    if (_i == 0 && _j == 0)
+                        indexX = 1;
 
-                    _parentMatrix[0, 0].Panel.Type = Data.Type.Mine;
-                    _parentMatrix[0, 0].Panel.Value = 0;
-                    _parentMatrix[0, 0].SetField();
+                    else
+                        indexX = 0;
+                    
 
-                    var list0 = _parentMatrix[0, 0].GetNeighbors();
+                    while (_parentMatrix[indexX, indexY].Panel.Type == Data.Type.Mine)
+                    {
+                        indexX++;
+                        if(indexX >= ((MainForm)this.ParentForm).X)
+                        {
+                            indexX = 0;
+                            indexY++;
+                        }
+                        if(indexX== _i && indexY == _j)
+                        {
+                            indexX++;
+                            if (indexX >= ((MainForm)this.ParentForm).X)
+                            {
+                                indexX = 0;
+                                indexY++;
+                            }
+                        }
+                    }
+                    _parentMatrix[indexX, indexY].Panel.Type = Data.Type.Mine;
+                    _parentMatrix[indexX, indexY].Panel.Value = 0;
+                    _parentMatrix[indexX, indexY].SetField();
+
+                    var list0 = _parentMatrix[indexX, indexY].GetNeighbors();
                     foreach(var c in list0)
                     {
                         c.setValue();
@@ -259,7 +281,7 @@ namespace Minesweeper.Controls
                         RevealEmpty(this);
                     if (this.Panel.Type == Data.Type.Mine)
                     {
-                        ((MainForm)(this.ParentForm)).GameOver();
+                        ((MainForm)(this.ParentForm)).timer.Stop();
                         this.BackgroundImage = Image.FromFile(respath + "\\res\\mineExploded.png");
                         RevealAll();
                     }
@@ -268,6 +290,7 @@ namespace Minesweeper.Controls
             }
             else if (e.Button == MouseButtons.Right)
             {
+
                 if (clickCount == 0)
                 {
                     this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\flag.png");
@@ -289,6 +312,18 @@ namespace Minesweeper.Controls
                 }
 
                 clickCount++;
+            }
+
+            _mines = ((MainForm)this.ParentForm).CheckEndState();
+
+            if (_mines != null)
+            {
+                ((MainForm)this.ParentForm).timer.Stop();
+                RevealAll();
+                foreach(var m in _mines)
+                {
+                    m.btn.Enabled = false;
+                }
             }
         }
     }

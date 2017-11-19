@@ -200,6 +200,7 @@
             this.customToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F6;
             this.customToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
             this.customToolStripMenuItem1.Text = "Custom";
+            this.customToolStripMenuItem1.Click += new System.EventHandler(this.customToolStripMenuItem1_Click);
             // 
             // loadToolStripMenuItem1
             // 

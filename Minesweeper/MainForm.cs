@@ -55,7 +55,7 @@ namespace Minesweeper
             _firstClick = true;
             lblTime.Text = "00:00:00";
             lblFlag.Text = Minecount.ToString();
-            
+            timer.Stop();
 
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
@@ -101,7 +101,7 @@ namespace Minesweeper
             {
                 x = rnd.Next(0, X);
                 y = rnd.Next(0, Y);
-                if(_matrix[x,y].Panel.Type != Data.Type.Mine && (x!=0 || y!=0))
+                if(_matrix[x,y].Panel.Type != Data.Type.Mine)
                 {
                     _matrix[x, y].Panel.Type = Data.Type.Mine;
                     _matrix[x, y].SetField();
@@ -133,21 +133,16 @@ namespace Minesweeper
                     } 
         }
 
-        public bool CheckEndState()
+        public List<Cell> CheckEndState()
         {
             foreach (var m in _mineList)
                 if (!m.Flagged)
-                    return false;
+                    return null;
             if ((_flagCount - _minecount) != 0)
-                return false;
-            return true;
+                return null;
+            return _mineList;
         }
-
-        public void GameOver()
-        {
-            timer.Stop();
-        }
-
+        
         private void easy9x9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
@@ -181,6 +176,16 @@ namespace Minesweeper
         {
             _matrix[0, 0].RevealAll();
             timer.Stop();
+        }
+
+        private void customToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var frm = new SizeForm();
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                ClearField();
+                DrawField(frm.XResult, frm.YResult, frm.MineResult);
+            }
         }
     }
 }
