@@ -24,13 +24,16 @@ namespace Data
 
         #region Properties
 
-        [XmlElementAttribute("Type")]
+        [XmlElementAttribute("Panel Type")]
         public Type Type { get => _type; set => _type = value; }
-        [XmlElementAttribute("Value")]
+
+        [XmlElementAttribute("Neighboring Mine Count")]
         public int Value { get => _value; set => _value = value; }
-        [XmlElementAttribute("Revealed")]
+
+        [XmlElementAttribute("Revealed Status")]
         public bool Revealed { get => _revealed; set => _revealed = value; }
-        [XmlElementAttribute("Flagged")]
+
+        [XmlElementAttribute("Flagged Status")]
         public bool Flagged { get => _flagged; set => _flagged = value; }
 
         #endregion
@@ -70,18 +73,6 @@ namespace Data
         }
 
         #endregion
-
-        #region Methods
-
-        public void Save(XmlTextWriter wr)
-        {
-            XmlSerializer sr = new XmlSerializer(typeof(Panel));
-            sr.Serialize(wr, this);
-            
-            
-        }
-
-        #endregion
-
+        
     }
 }

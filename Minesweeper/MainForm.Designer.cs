@@ -123,7 +123,7 @@
             // 
             // timer
             // 
-            this.timer.Interval = 1000;
+            this.timer.Interval = 500;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // menu
@@ -225,6 +225,7 @@
             this.loadToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.loadToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
             this.loadToolStripMenuItem1.Text = "Load";
+            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
             // 
             // lblFlag
             // 

@@ -55,6 +55,17 @@ namespace Minesweeper.Controls
                 this.BackgroundImage = Image.FromFile(respath + "\\res\\mine.png");
             else if (_p.Type == Data.Type.Number)
                 this.BackgroundImage = Image.FromFile(respath + "\\res\\" + _p.Value.ToString() + ".png");
+            if (_p.Revealed)
+                btn.Visible = false;
+            if (_p.Flagged)
+            {
+                this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\flag.png");
+                Panel.Flagged = true;
+                ((MainForm)(this.ParentForm)).FlagCount++;
+                ((MainForm)(this.ParentForm)).lblFlag.Text = (((MainForm)(this.ParentForm)).Minecount - ((MainForm)(this.ParentForm)).FlagCount).ToString();
+                clickCount++;
+            }
+
         }
 
         public void Reveal()

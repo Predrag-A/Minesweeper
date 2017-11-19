@@ -17,12 +17,7 @@ using System.Xml;
 namespace Minesweeper
 {
     public partial class MainForm : Form
-    {
-
-        /*
-         * TODO:
-         * XML Serialization
-         */
+    {       
 
         #region Attributes
 
@@ -54,6 +49,8 @@ namespace Minesweeper
         {
             InitializeComponent();
             DrawField(9, 9, 10);
+            PopulateMines();
+            PopulateNumbers();
         }
 
         #endregion
@@ -91,8 +88,6 @@ namespace Minesweeper
                 }
             lblTime.Location = new Point(0, y * 25 + 24);
             lblFlag.Location = new Point(x * 21, y * 25 + 24);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         void ClearField()
@@ -159,6 +154,13 @@ namespace Minesweeper
             return _mineList;
         }
 
+        public void SetAll()
+        {
+            for (int i = 0; i < _x; i++)
+                for (int j = 0; j < _y; j++)
+                    _matrix[i, j].SetField();
+        }
+
         #endregion
 
         #region Events
@@ -167,18 +169,24 @@ namespace Minesweeper
         {
             ClearField();
             DrawField(9, 9, 10);
+            PopulateMines();
+            PopulateNumbers();
         }
 
         private void medium16x16ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
             DrawField(16, 16, 40);
+            PopulateMines();
+            PopulateNumbers();
         }
 
         private void expertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
             DrawField(16, 30, 99);
+            PopulateMines();
+            PopulateNumbers();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -190,6 +198,8 @@ namespace Minesweeper
         {
             ClearField();
             DrawField(_x, _y, Minecount);
+            PopulateMines();
+            PopulateNumbers();
         }
 
         private void endToolStripMenuItem_Click(object sender, EventArgs e)
@@ -205,30 +215,51 @@ namespace Minesweeper
             {
                 ClearField();
                 DrawField(frm.XResult, frm.YResult, frm.MineResult);
+                PopulateMines();
+                PopulateNumbers();
             }
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
-            /*if (sfd.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                var xmlserializer = new XmlSerializer(typeof(MainForm));
-                var sw = new StringWriter();
-                using (var writer = new XmlTextWriter(sfd.FileName, Encoding.Unicode))
-                {
-                    writer.Settings.Indent = true;
-                    xmlserializer.Serialize(writer, this);
+                SerializableField f = new SerializableField(_x, _y, _minecount);
+                f.FirstClick = _firstClick;
+                for (int i = 0; i < _x; i++)
+                    for (int j = 0; j < _y; j++)
+                        f.Matrix[i, j] = _matrix[i, j].Panel;
+                var xmlserializer = new XmlSerializer(typeof(SerializableField));
 
-                    for(int i=0; i<_x; i++)
-                        for(int j = 0; j < _y; j++)
-                        {
-                            _matrix[i, j].Panel.Save(writer);
-                        }
+                using (var fileWriter = new FileStream(sfd.FileName, FileMode.Create))
+                {
+                    xmlserializer.Serialize(fileWriter, f);
                 }
 
-            }*/
+            }
         }
+
+        private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                SerializableField f;
+                var serializer = new XmlSerializer(typeof(SerializableField));
+
+                using (var reader = XmlReader.Create(ofd.FileName))
+                {
+                    f = (SerializableField)serializer.Deserialize(reader);
+                }
+                _firstClick = f.FirstClick;
+                ClearField();
+                DrawField(f.X, f.Y, f.Minecount);
+                for (int i = 0; i < _x; i++)
+                    for (int j = 0; j < _y; j++)
+                        _matrix[i, j].Panel = f.Matrix[i, j];
+                SetAll();
+            }
+        }
+
         #endregion
 
     }
