@@ -74,92 +74,20 @@ namespace Minesweeper.Controls
             this.Panel.Revealed = true;
         }
 
-        //Some long shit
         public List<Cell> GetNeighbors()
         {
             int xDim = ((MainForm)this.ParentForm).X;
             int yDim = ((MainForm)this.ParentForm).Y;
             List<Cell> list = new List<Cell>();
-
-            if (_i == 0 && _j == 0)
-            {
-                list.Add(_parentMatrix[_i, _j + 1]);                
-                list.Add(_parentMatrix[_i + 1, _j]);
-                list.Add(_parentMatrix[_i + 1, _j + 1]);
-            }
-            else if (_i == 0 && _j == yDim - 1)
-            {
-                list.Add(_parentMatrix[_i + 1, _j]);
-                list.Add(_parentMatrix[_i + 1, _j - 1]);
-                list.Add(_parentMatrix[_i, _j - 1]);
-            }
-            else if (_i == xDim - 1 && _j == 0)
-            {
-                list.Add(_parentMatrix[_i - 1, _j]);
-                list.Add(_parentMatrix[_i - 1, _j + 1]);
-                list.Add(_parentMatrix[_i, _j + 1]);
-            }
-            else if (_i == xDim - 1 && _j == yDim - 1)
-            {
-                list.Add(_parentMatrix[_i - 1, _j - 1]);
-                list.Add(_parentMatrix[_i, _j - 1]);
-                list.Add(_parentMatrix[_i - 1, _j]);
-            }
-            else
-            {
-                if (_i == 0)
+            
+            for(int i=-1; i<2;i++)
+                for(int j = -1; j < 2; j++)
                 {
-                    list.Add(_parentMatrix[_i, _j - 1]);
-                    list.Add(_parentMatrix[_i, _j + 1]);
-
-                    list.Add(_parentMatrix[_i + 1, _j - 1]);
-                    list.Add(_parentMatrix[_i + 1, _j]);
-                    list.Add(_parentMatrix[_i + 1, _j + 1]);
+                    if (i + XCoord < 0 || i + XCoord > xDim-1 || j + YCoord < 0 || j + YCoord > yDim-1)
+                        continue;
+                    list.Add(_parentMatrix[i+XCoord, j+YCoord]);
                 }
-                else if (_i == xDim - 1)
-                {
-                    list.Add(_parentMatrix[_i - 1, _j - 1]);
-                    list.Add(_parentMatrix[_i - 1, _j]);
-                    list.Add(_parentMatrix[_i - 1, _j + 1]);
 
-                    list.Add(_parentMatrix[_i, _j - 1]);
-                    list.Add(_parentMatrix[_i, _j + 1]);                    
-                }
-                else if (_j == 0)
-                {
-                    list.Add(_parentMatrix[_i - 1, _j]);
-                    list.Add(_parentMatrix[_i - 1, _j + 1]);
-                    
-                    list.Add(_parentMatrix[_i, _j + 1]);
-                    
-                    list.Add(_parentMatrix[_i + 1, _j]);
-                    list.Add(_parentMatrix[_i + 1, _j + 1]);
-                }
-                else if (_j == yDim - 1)
-                {
-
-                    list.Add(_parentMatrix[_i - 1, _j - 1]);
-                    list.Add(_parentMatrix[_i - 1, _j]);
-
-                    list.Add(_parentMatrix[_i, _j - 1]);
-
-                    list.Add(_parentMatrix[_i + 1, _j - 1]);
-                    list.Add(_parentMatrix[_i + 1, _j]);
-                }
-                else
-                {
-                    list.Add(_parentMatrix[_i - 1, _j - 1]);
-                    list.Add(_parentMatrix[_i - 1, _j]);
-                    list.Add(_parentMatrix[_i - 1, _j + 1]);
-
-                    list.Add(_parentMatrix[_i, _j - 1]);
-                    list.Add(_parentMatrix[_i, _j + 1]);
-
-                    list.Add(_parentMatrix[_i + 1, _j - 1]);
-                    list.Add(_parentMatrix[_i + 1, _j]);
-                    list.Add(_parentMatrix[_i + 1, _j + 1]);
-                }
-            }
             return list;
         }
 

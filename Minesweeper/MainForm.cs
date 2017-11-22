@@ -43,7 +43,7 @@ namespace Minesweeper
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         public MainForm()
         {

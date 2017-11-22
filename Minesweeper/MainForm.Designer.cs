@@ -239,11 +239,11 @@
             // 
             // sfd
             // 
-            this.sfd.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
+            this.sfd.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             // 
             // ofd
             // 
-            this.ofd.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
+            this.ofd.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             // 
             // MainForm
             // 
