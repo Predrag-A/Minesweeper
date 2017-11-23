@@ -158,6 +158,7 @@ namespace Minesweeper.Controls
                         {
                             _parentMatrix[i, j].BackgroundImage = Image.FromFile(respath + "\\res\\mineWrong.png");
                             _parentMatrix[i, j].Reveal();
+                            _parentMatrix[i, j].lblValue.Visible = false;
                         }
                         else
                             _parentMatrix[i, j].Reveal();
