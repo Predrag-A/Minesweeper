@@ -24,13 +24,13 @@ namespace Data
         #region Properties
 
         [XmlElementAttribute("X Dimension")]
-        public int X { get => _x; set => _x = value; }
+        public int X { get { return _x; } set { _x = value; } }
 
         [XmlElementAttribute("Y Dimension")]
-        public int Y { get => _y; set => _y = value; }
+        public int Y { get { return _y; } set { _y = value; } }
 
         [XmlElementAttribute("Mine Count")]
-        public int Minecount { get => _minecount; set => _minecount = value; }
+        public int Minecount { get { return _minecount; } set { _minecount = value; } }
 
         [XmlIgnore]
         public Panel[,] Matrix { get => _matrix; }
@@ -63,7 +63,7 @@ namespace Data
         }
 
         [XmlElementAttribute("First Click Status")]
-        public bool FirstClick { get => _firstClick; set => _firstClick = value; }
+        public bool FirstClick { get { return _firstClick; } set { _firstClick = value; } }
 
 
         #endregion

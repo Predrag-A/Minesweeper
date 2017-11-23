@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btn = new System.Windows.Forms.Button();
+            this.lblValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn
@@ -43,23 +44,39 @@
             this.btn.UseVisualStyleBackColor = false;
             this.btn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_MouseDown);
             // 
+            // lblValue
+            // 
+            this.lblValue.AutoSize = true;
+            this.lblValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblValue.Font = new System.Drawing.Font("Stencil", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValue.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblValue.Location = new System.Drawing.Point(1, 0);
+            this.lblValue.Name = "lblValue";
+            this.lblValue.Size = new System.Drawing.Size(24, 25);
+            this.lblValue.TabIndex = 1;
+            this.lblValue.Text = "0";
+            this.lblValue.Visible = false;
+            // 
             // Cell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.Controls.Add(this.lblValue);
             this.Controls.Add(this.btn);
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Cell";
             this.Size = new System.Drawing.Size(44, 51);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button btn;
+        private System.Windows.Forms.Label lblValue;
     }
 }

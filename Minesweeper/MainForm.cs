@@ -34,12 +34,12 @@ namespace Minesweeper
 
         #region Properties
 
-        public int FlagCount { get => _flagCount; set => _flagCount = value; }
-        public int X { get => _x; }
-        public int Y { get => _y; }
-        public bool FirstClick { get => _firstClick; set => _firstClick = value; }
-        public DateTime Time { get => _time; set => _time = value; }
-        public int Minecount { get => _minecount;}
+        public int FlagCount { get { return _flagCount; } set { _flagCount = value; } }
+        public int X { get { return _x; } }
+        public int Y { get { return _y; } }
+        public bool FirstClick { get { return _firstClick; } set { _firstClick = value; } }
+        public DateTime Time { get { return _time; } set { _time = value; } }
+        public int Minecount { get { return _minecount; } }
 
         #endregion
 
@@ -49,8 +49,6 @@ namespace Minesweeper
         {
             InitializeComponent();
             DrawField(9, 9, 10);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         #endregion
@@ -103,26 +101,51 @@ namespace Minesweeper
             _matrix = null;
         }
 
-        void PopulateMines()
+        public void PopulateMines(int i, int j)
         {
             Random rnd = new Random();
             int x, y;
             int counter = 0;
-            while (counter < Minecount)
+
+            if (Minecount < (_x - 1) * (_y - 1) - 8)
             {
-                x = rnd.Next(0, X);
-                y = rnd.Next(0, Y);
-                if(_matrix[x,y].Panel.Type != Data.Type.Mine)
+                List<Cell> n = _matrix[i, j].GetNeighbors();
+                while (counter < Minecount)
                 {
-                    _matrix[x, y].Panel.Type = Data.Type.Mine;
-                    _matrix[x, y].SetField();
-                    counter++;
-                    _mineList.Add(_matrix[x, y]);
+                    x = rnd.Next(0, X);
+                    y = rnd.Next(0, Y);
+                    
+                    if (n.Contains(_matrix[x,y]) || (x == i && j == y))
+                        continue;
+                    if (_matrix[x, y].Panel.Type != Data.Type.Mine)
+                    {
+                        _matrix[x, y].Panel.Type = Data.Type.Mine;
+                        _matrix[x, y].SetField();
+                        counter++;
+                        _mineList.Add(_matrix[x, y]);
+                    }
+                }
+            }
+            else
+            {
+                while (counter < Minecount)
+                {
+                    x = rnd.Next(0, X);
+                    y = rnd.Next(0, Y);
+                    if (x == i && j == y)
+                        continue;
+                    if (_matrix[x, y].Panel.Type != Data.Type.Mine)
+                    {
+                        _matrix[x, y].Panel.Type = Data.Type.Mine;
+                        _matrix[x, y].SetField();
+                        counter++;
+                        _mineList.Add(_matrix[x, y]);
+                    }
                 }
             }
         }
         
-        void PopulateNumbers()
+        public void PopulateNumbers()
         {
             for(int i=0; i<X;i++)
                 for(int j=0; j < Y; j++)                
@@ -169,24 +192,18 @@ namespace Minesweeper
         {
             ClearField();
             DrawField(9, 9, 10);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         private void medium16x16ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
             DrawField(16, 16, 40);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         private void expertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
             DrawField(16, 30, 99);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -198,8 +215,6 @@ namespace Minesweeper
         {
             ClearField();
             DrawField(_x, _y, Minecount);
-            PopulateMines();
-            PopulateNumbers();
         }
 
         private void endToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,8 +230,6 @@ namespace Minesweeper
             {
                 ClearField();
                 DrawField(frm.XResult, frm.YResult, frm.MineResult);
-                PopulateMines();
-                PopulateNumbers();
             }
         }
 

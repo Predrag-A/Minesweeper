@@ -25,16 +25,16 @@ namespace Data
         #region Properties
 
         [XmlElementAttribute("Panel Type")]
-        public Type Type { get => _type; set => _type = value; }
+        public Type Type { get { return _type; } set { _type = value; } }
 
         [XmlElementAttribute("Neighboring Mine Count")]
-        public int Value { get => _value; set => _value = value; }
+        public int Value { get { return _value; } set { _value = value; } }
 
         [XmlElementAttribute("Revealed Status")]
-        public bool Revealed { get => _revealed; set => _revealed = value; }
+        public bool Revealed { get { return _revealed; } set { _revealed = value; } }
 
         [XmlElementAttribute("Flagged Status")]
-        public bool Flagged { get => _flagged; set => _flagged = value; }
+        public bool Flagged { get { return _flagged; } set { _flagged = value; } }
 
         #endregion
 
