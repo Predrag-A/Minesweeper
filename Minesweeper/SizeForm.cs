@@ -79,6 +79,8 @@ namespace Minesweeper
 
         private void tbarMines_ValueChanged(object sender, EventArgs e)
         {
+            if (tbarMines.Value > ((tbarHeight.Value - 1) * (tbarWidth.Value - 1)))
+                tbarMines.Value = (tbarHeight.Value - 1) * (tbarWidth.Value - 1);
             txtMines.Text = tbarMines.Value.ToString();
             MineResult = tbarMines.Value;
         }

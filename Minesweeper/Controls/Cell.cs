@@ -86,7 +86,11 @@ namespace Minesweeper.Controls
                 lblValue.ForeColor = getColor();
             }
             if (_p.Revealed)
+            {
                 btn.Visible = false;
+                if (_p.Value > 0)
+                    lblValue.Visible = true;
+            }
             if (_p.Flagged)
             {
                 this.btn.BackgroundImage = Image.FromFile(respath + "\\res\\flag.png");

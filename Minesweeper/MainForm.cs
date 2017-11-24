@@ -106,6 +106,8 @@ namespace Minesweeper
             Random rnd = new Random();
             int x, y;
             int counter = 0;
+            if (_minecount > (_x - 1) * (_y - 1))
+                _minecount = (_x - 1) * (_y - 1);
 
             if (Minecount < (_x - 1) * (_y - 1) - 8)
             {
