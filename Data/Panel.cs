@@ -40,6 +40,7 @@ namespace Data
 
         #region Constructors
 
+        //Class used to store info about the type, value and statuses of a cell.
         public Panel()
         {
             _type = Type.Empty;

@@ -70,6 +70,7 @@ namespace Data
 
         #region Constructors
 
+        //Helper class which allows XML Serialization.
         private SerializableField()
         {
 

@@ -37,6 +37,7 @@ namespace Minesweeper.Controls
 
         #region Constructors
 
+        //Main UserControl used to represent a single Minesweeper cell.
         public Cell()
         {
             InitializeComponent();
@@ -48,6 +49,7 @@ namespace Minesweeper.Controls
 
         #region Methods
 
+        //Returns a color depending on the number of mines around a cell. The color is used for the number label.
         Color getColor()
         {
             switch (this.Panel.Value)
@@ -74,6 +76,7 @@ namespace Minesweeper.Controls
             
         }
 
+        //Sets the background and/or label of a cell.
         public void SetField()
         {
             if (_p.Type == Data.Type.Empty)
@@ -102,6 +105,7 @@ namespace Minesweeper.Controls
 
         }
 
+        //Reveals a cell, sets the label to visible if the cell type is Number.
         public void Reveal()
         {
             btn.Visible = false;
@@ -110,6 +114,7 @@ namespace Minesweeper.Controls
                 lblValue.Visible = true;
         }
 
+        //Returns a list of all neighbors of a cell.
         public List<Cell> GetNeighbors()
         {
             int xDim = ((MainForm)this.ParentForm).X;
@@ -127,6 +132,7 @@ namespace Minesweeper.Controls
             return list;
         }
 
+        //Function that gets called recursively if a cell is empty or stops if it is a number.
         void RevealEmpty(Cell c)
         {
             List<Cell> list = c.GetNeighbors();
@@ -145,6 +151,7 @@ namespace Minesweeper.Controls
             }
         }
 
+        //Reveals all cells. Gets used when the game ends.
         public void RevealAll()
         {
             for (int i = 0; i < ((MainForm)this.ParentForm).X; i++)
@@ -171,6 +178,7 @@ namespace Minesweeper.Controls
                     }
         }
 
+        //Sets the value of a cell to the number of mines surrounding it.
         int setValue()
         {
             int count = 0;
@@ -190,6 +198,7 @@ namespace Minesweeper.Controls
 
         private void btn_MouseDown(object sender, MouseEventArgs e)
         {
+            //If it is the first click of the game, add the mines, numbers and start the timer.
             if (((MainForm)this.ParentForm).FirstClick)
             {
                 ((MainForm)this.ParentForm).PopulateMines(_i, _j);
@@ -198,6 +207,7 @@ namespace Minesweeper.Controls
                 ((MainForm)this.ParentForm).Time = DateTime.Now;
                 ((MainForm)this.ParentForm).timer.Start();
             }
+            //If the left click is used and the cell is not flagged or has a question mark.
             if (e.Button == MouseButtons.Left && clickCount == 0)
             {
                 ((MainForm)this.ParentForm).FirstClick = false;
@@ -211,6 +221,7 @@ namespace Minesweeper.Controls
                     RevealAll();
                 }
             }
+            //If the right click is used cycle between no flag, flag and question mark.
             else if (e.Button == MouseButtons.Right)
             {
 

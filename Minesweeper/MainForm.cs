@@ -48,6 +48,7 @@ namespace Minesweeper
         public MainForm()
         {
             InitializeComponent();
+            //Default option is 9x9 with 10 mines.
             DrawField(9, 9, 10);
         }
 
@@ -55,6 +56,8 @@ namespace Minesweeper
 
         #region Methods
 
+
+        //Initializes matrix of Cell UserControls and places them inside the WinForm.
         void DrawField(int x, int y, int minecount)
         {
             _matrix = new Cell[x, y];
@@ -88,6 +91,7 @@ namespace Minesweeper
             lblFlag.Location = new Point(x * 21, y * 25 + 24);
         }
 
+        //Deletes all Cell UserControls from the WinForm.
         void ClearField()
         {
             var count = this.Controls.Count;
@@ -101,14 +105,18 @@ namespace Minesweeper
             _matrix = null;
         }
 
+        //Adds mines to the matrix of cells.
         public void PopulateMines(int i, int j)
         {
             Random rnd = new Random();
             int x, y;
             int counter = 0;
+
+            //Max mines correction
             if (_minecount > (_x - 1) * (_y - 1))
                 _minecount = (_x - 1) * (_y - 1);
 
+            //If there is a low enough number of mines to enable the first click to be an empty space
             if (Minecount < (_x - 1) * (_y - 1) - 8)
             {
                 List<Cell> n = _matrix[i, j].GetNeighbors();
@@ -128,6 +136,8 @@ namespace Minesweeper
                     }
                 }
             }
+            //If there isn't the first click will most likely be a number. Either way, a mine will not be placed
+            //on the cell which has been clicked.
             else
             {
                 while (counter < Minecount)
@@ -147,6 +157,7 @@ namespace Minesweeper
             }
         }
         
+        //After mines have been set, the rest of the cells are filled with numbers if there are any mines around them.
         public void PopulateNumbers()
         {
             for(int i=0; i<X;i++)
@@ -169,6 +180,7 @@ namespace Minesweeper
                     } 
         }
 
+        //If all the mines are flagged, the game is over.
         public List<Cell> CheckEndState()
         {
             foreach (var m in _mineList)
@@ -179,6 +191,7 @@ namespace Minesweeper
             return _mineList;
         }
 
+        //Sets the background image and label depending on the cell type, used only for deserialization.
         public void SetAll()
         {
             for (int i = 0; i < _x; i++)
@@ -237,6 +250,7 @@ namespace Minesweeper
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Serialization
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 SerializableField f = new SerializableField(_x, _y, _minecount);
@@ -256,6 +270,7 @@ namespace Minesweeper
 
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Deserialization
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 SerializableField f;
