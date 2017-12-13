@@ -1,11 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Xml.Serialization;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Data
 {
@@ -13,7 +7,7 @@ namespace Data
     public class Panel
     {
 
-        #region Attributes
+        #region Fields
 
         Type _type;
         int _value;
@@ -24,17 +18,17 @@ namespace Data
 
         #region Properties
 
-        [XmlElementAttribute("Panel Type")]
-        public Type Type { get { return _type; } set { _type = value; } }
+        [XmlElement("Panel Type")]
+        public Type Type { get => _type; set => _type = value; }
 
-        [XmlElementAttribute("Neighboring Mine Count")]
-        public int Value { get { return _value; } set { _value = value; } }
+        [XmlElement("Neighboring Mine Count")]
+        public int Value { get => _value; set => _value = value; }
 
-        [XmlElementAttribute("Revealed Status")]
-        public bool Revealed { get { return _revealed; } set { _revealed = value; } }
+        [XmlElement("Revealed Status")]
+        public bool Revealed { get => _revealed; set => _revealed = value; }
 
-        [XmlElementAttribute("Flagged Status")]
-        public bool Flagged { get { return _flagged; } set { _flagged = value; } }
+        [XmlElement("Flagged Status")]
+        public bool Flagged { get => _flagged; set => _flagged = value; }
 
         #endregion
 

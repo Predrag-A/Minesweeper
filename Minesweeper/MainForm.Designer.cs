@@ -1,11 +1,14 @@
-﻿namespace Minesweeper
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Minesweeper
 {
     partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -29,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.easy9x9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.medium16x16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,30 +269,30 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem easy9x9ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem medium16x16ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem expertToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem;
-        private System.Windows.Forms.Label lblTime;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        public System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.MenuStrip menu;
-        private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem easy9x9ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem medium16x16ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem expert16x30ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem endToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        public System.Windows.Forms.Label lblFlag;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
-        private System.Windows.Forms.SaveFileDialog sfd;
-        private System.Windows.Forms.OpenFileDialog ofd;
+        private ToolStripMenuItem gameToolStripMenuItem;
+        private ToolStripMenuItem easy9x9ToolStripMenuItem;
+        private ToolStripMenuItem medium16x16ToolStripMenuItem;
+        private ToolStripMenuItem expertToolStripMenuItem;
+        private ToolStripMenuItem customToolStripMenuItem;
+        private Label lblTime;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem loadToolStripMenuItem;
+        public Timer timer;
+        private MenuStrip menu;
+        private ToolStripMenuItem gameToolStripMenuItem1;
+        private ToolStripMenuItem easy9x9ToolStripMenuItem1;
+        private ToolStripMenuItem medium16x16ToolStripMenuItem1;
+        private ToolStripMenuItem expert16x30ToolStripMenuItem;
+        private ToolStripMenuItem customToolStripMenuItem1;
+        private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem endToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem1;
+        public Label lblFlag;
+        private ToolStripSeparator toolStripMenuItem2;
+        private ToolStripMenuItem saveToolStripMenuItem1;
+        private ToolStripMenuItem loadToolStripMenuItem1;
+        private SaveFileDialog sfd;
+        private OpenFileDialog ofd;
     }
 }
 

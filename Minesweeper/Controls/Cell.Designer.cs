@@ -1,11 +1,14 @@
-﻿namespace Minesweeper.Controls
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Minesweeper.Controls
 {
     partial class Cell
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -76,7 +79,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btn;
-        private System.Windows.Forms.Label lblValue;
+        private Button btn;
+        private Label lblValue;
     }
 }

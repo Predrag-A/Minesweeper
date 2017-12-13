@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Minesweeper
@@ -51,14 +44,14 @@ namespace Minesweeper
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void tbarWidth_ValueChanged(object sender, EventArgs e)
@@ -79,7 +72,7 @@ namespace Minesweeper
 
         private void tbarMines_ValueChanged(object sender, EventArgs e)
         {
-            if (tbarMines.Value > ((tbarHeight.Value - 1) * (tbarWidth.Value - 1)))
+            if (tbarMines.Value > (tbarHeight.Value - 1) * (tbarWidth.Value - 1))
                 tbarMines.Value = (tbarHeight.Value - 1) * (tbarWidth.Value - 1);
             txtMines.Text = tbarMines.Value.ToString();
             MineResult = tbarMines.Value;

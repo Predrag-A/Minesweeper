@@ -1,11 +1,14 @@
-﻿namespace Minesweeper
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Minesweeper
 {
     partial class SizeForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -194,16 +197,16 @@
 
         #endregion
 
-        private System.Windows.Forms.TrackBar tbarWidth;
-        private System.Windows.Forms.Label lblWidth;
-        private System.Windows.Forms.Label lblHeight;
-        private System.Windows.Forms.TrackBar tbarHeight;
-        private System.Windows.Forms.Label lblMines;
-        private System.Windows.Forms.TrackBar tbarMines;
-        private System.Windows.Forms.TextBox txtWidth;
-        private System.Windows.Forms.TextBox txtHeight;
-        private System.Windows.Forms.TextBox txtMines;
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnCancel;
+        private TrackBar tbarWidth;
+        private Label lblWidth;
+        private Label lblHeight;
+        private TrackBar tbarHeight;
+        private Label lblMines;
+        private TrackBar tbarMines;
+        private TextBox txtWidth;
+        private TextBox txtHeight;
+        private TextBox txtMines;
+        private Button btnOK;
+        private Button btnCancel;
     }
 }

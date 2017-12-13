@@ -1,45 +1,39 @@
-﻿using Minesweeper.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Data;
-using System.Diagnostics;
-using System.Xml.Serialization;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
+using Data;
+using Minesweeper.Controls;
+using Panel = Data.Panel;
+using Type = Data.Type;
 
 namespace Minesweeper
 {
     public partial class MainForm : Form
     {       
 
-        #region Attributes
+        #region Fields
 
-        int _x;
-        int _y;
-        int _minecount;
         Cell[,] _matrix;
         List<Cell> _mineList;
-        int _flagCount;
-        bool _firstClick;
-        DateTime _time;
 
         #endregion
 
         #region Properties
 
-        public int FlagCount { get { return _flagCount; } set { _flagCount = value; } }
-        public int X { get { return _x; } }
-        public int Y { get { return _y; } }
-        public bool FirstClick { get { return _firstClick; } set { _firstClick = value; } }
-        public DateTime Time { get { return _time; } set { _time = value; } }
-        public int Minecount { get { return _minecount; } }
+        public int FlagCount { get; set; }
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public bool FirstClick { get; set; }
+
+        public DateTime Time { get; set; }
+
+        public int Minecount { get; private set; }
 
         #endregion
 
@@ -61,30 +55,30 @@ namespace Minesweeper
         void DrawField(int x, int y, int minecount)
         {
             _matrix = new Cell[x, y];
-            _x = x;
-            _y = y;
-            _minecount = minecount;
+            X = x;
+            Y = y;
+            Minecount = minecount;
             _mineList = new List<Cell>();
-            _flagCount = 0;
-            _firstClick = true;
+            FlagCount = 0;
+            FirstClick = true;
             lblTime.Text = "00:00:00";
             lblFlag.Text = Minecount.ToString();
             timer.Stop();
 
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
+            for (var i = 0; i < x; i++)
+                for (var j = 0; j < y; j++)
                 {
-                    Cell btn = new Cell();
+                    var btn = new Cell();
                     btn.Size = new Size(25, 25);
                     btn.Location = new Point(i * 25, j * 25 + 24);
-                    btn.Panel = new Data.Panel();
+                    btn.Panel = new Panel();
                     btn.XCoord = i;
                     btn.YCoord = j;
                     btn.ParentMatrix = _matrix;
                     
                     btn.SetField();
                     
-                    this.Controls.Add(btn);
+                    Controls.Add(btn);
                     _matrix[i, j] = btn;
                 }
             lblTime.Location = new Point(0, y * 25 + 24);
@@ -94,11 +88,11 @@ namespace Minesweeper
         //Deletes all Cell UserControls from the WinForm.
         void ClearField()
         {
-            var count = this.Controls.Count;
+            var count = Controls.Count;
             for(var i=0; i<count; i++)
-                if(this.Controls[i] is Cell)
+                if(Controls[i] is Cell)
                 {
-                    this.Controls.RemoveAt(i);
+                    Controls.RemoveAt(i);
                     i--;
                     count--;
                 }
@@ -108,28 +102,28 @@ namespace Minesweeper
         //Adds mines to the matrix of cells.
         public void PopulateMines(int i, int j)
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             int x, y;
-            int counter = 0;
+            var counter = 0;
 
             //Max mines correction
-            if (_minecount > (_x - 1) * (_y - 1))
-                _minecount = (_x - 1) * (_y - 1);
+            if (Minecount > (X - 1) * (Y - 1))
+                Minecount = (X - 1) * (Y - 1);
 
             //If there is a low enough number of mines to enable the first click to be an empty space
-            if (Minecount < (_x - 1) * (_y - 1) - 8)
+            if (Minecount < (X - 1) * (Y - 1) - 8)
             {
-                List<Cell> n = _matrix[i, j].GetNeighbors();
+                var n = _matrix[i, j].GetNeighbors();
                 while (counter < Minecount)
                 {
                     x = rnd.Next(0, X);
                     y = rnd.Next(0, Y);
                     
-                    if (n.Contains(_matrix[x,y]) || (x == i && j == y))
+                    if (n.Contains(_matrix[x,y]) || x == i && j == y)
                         continue;
-                    if (_matrix[x, y].Panel.Type != Data.Type.Mine)
+                    if (_matrix[x, y].Panel.Type != Type.Mine)
                     {
-                        _matrix[x, y].Panel.Type = Data.Type.Mine;
+                        _matrix[x, y].Panel.Type = Type.Mine;
                         _matrix[x, y].SetField();
                         counter++;
                         _mineList.Add(_matrix[x, y]);
@@ -146,9 +140,9 @@ namespace Minesweeper
                     y = rnd.Next(0, Y);
                     if (x == i && j == y)
                         continue;
-                    if (_matrix[x, y].Panel.Type != Data.Type.Mine)
+                    if (_matrix[x, y].Panel.Type != Type.Mine)
                     {
-                        _matrix[x, y].Panel.Type = Data.Type.Mine;
+                        _matrix[x, y].Panel.Type = Type.Mine;
                         _matrix[x, y].SetField();
                         counter++;
                         _mineList.Add(_matrix[x, y]);
@@ -160,42 +154,35 @@ namespace Minesweeper
         //After mines have been set, the rest of the cells are filled with numbers if there are any mines around them.
         public void PopulateNumbers()
         {
-            for(int i=0; i<X;i++)
-                for(int j=0; j < Y; j++)                
-                    if(_matrix[i,j].Panel.Type != Data.Type.Mine)
+            for(var i=0; i<X;i++)
+                for(var j=0; j < Y; j++)                
+                    if(_matrix[i,j].Panel.Type != Type.Mine)
                     {
-                        int counter = 0;
+                        var list = _matrix[i, j].GetNeighbors();
+                        var counter = list.Count(c => c.Panel.Type == Type.Mine);
 
-                        List<Cell> list = _matrix[i, j].GetNeighbors();
-                        foreach (var c in list)
-                            if (c.Panel.Type == Data.Type.Mine)
-                                counter++;
-                        
-                        if (counter > 0)
-                        {
-                            _matrix[i, j].Panel.Type = Data.Type.Number;
-                            _matrix[i, j].Panel.Value = counter;
-                            _matrix[i, j].SetField();
-                        }
+                        if (counter <= 0) continue;
+                        _matrix[i, j].Panel.Type = Type.Number;
+                        _matrix[i, j].Panel.Value = counter;
+                        _matrix[i, j].SetField();
                     } 
         }
 
         //If all the mines are flagged, the game is over.
         public List<Cell> CheckEndState()
         {
-            foreach (var m in _mineList)
-                if (!m.Panel.Flagged)
-                    return null;
-            if ((_flagCount - _minecount) != 0)
+            if (_mineList.Any(m => !m.Panel.Flagged))
+            {
                 return null;
-            return _mineList;
+            }
+            return FlagCount - Minecount != 0 ? null : _mineList;
         }
 
         //Sets the background image and label depending on the cell type, used only for deserialization.
         public void SetAll()
         {
-            for (int i = 0; i < _x; i++)
-                for (int j = 0; j < _y; j++)
+            for (var i = 0; i < X; i++)
+                for (var j = 0; j < Y; j++)
                     _matrix[i, j].SetField();
         }
 
@@ -223,13 +210,13 @@ namespace Minesweeper
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            lblTime.Text = DateTime.Now.Subtract(_time).ToString("hh\\:mm\\:ss");
+            lblTime.Text = DateTime.Now.Subtract(Time).ToString("hh\\:mm\\:ss");
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearField();
-            DrawField(_x, _y, Minecount);
+            DrawField(X, Y, Minecount);
         }
 
         private void endToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,53 +228,45 @@ namespace Minesweeper
         private void customToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var frm = new SizeForm();
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                ClearField();
-                DrawField(frm.XResult, frm.YResult, frm.MineResult);
-            }
+            if (frm.ShowDialog() != DialogResult.OK) return;
+            ClearField();
+            DrawField(frm.XResult, frm.YResult, frm.MineResult);
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Serialization
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            var f = new SerializableField(X, Y, Minecount) {FirstClick = FirstClick};
+            for (var i = 0; i < X; i++)
+            for (var j = 0; j < Y; j++)
+                f.Matrix[i, j] = _matrix[i, j].Panel;
+            var xmlserializer = new XmlSerializer(typeof(SerializableField));
+
+            using (var fileWriter = new FileStream(sfd.FileName, FileMode.Create))
             {
-                SerializableField f = new SerializableField(_x, _y, _minecount);
-                f.FirstClick = _firstClick;
-                for (int i = 0; i < _x; i++)
-                    for (int j = 0; j < _y; j++)
-                        f.Matrix[i, j] = _matrix[i, j].Panel;
-                var xmlserializer = new XmlSerializer(typeof(SerializableField));
-
-                using (var fileWriter = new FileStream(sfd.FileName, FileMode.Create))
-                {
-                    xmlserializer.Serialize(fileWriter, f);
-                }
-
+                xmlserializer.Serialize(fileWriter, f);
             }
         }
 
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Deserialization
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                SerializableField f;
-                var serializer = new XmlSerializer(typeof(SerializableField));
+            if (ofd.ShowDialog() != DialogResult.OK) return;
+            SerializableField f;
+            var serializer = new XmlSerializer(typeof(SerializableField));
 
-                using (var reader = XmlReader.Create(ofd.FileName))
-                {
-                    f = (SerializableField)serializer.Deserialize(reader);
-                }
-                _firstClick = f.FirstClick;
-                ClearField();
-                DrawField(f.X, f.Y, f.Minecount);
-                for (int i = 0; i < _x; i++)
-                    for (int j = 0; j < _y; j++)
-                        _matrix[i, j].Panel = f.Matrix[i, j];
-                SetAll();
+            using (var reader = XmlReader.Create(ofd.FileName))
+            {
+                f = (SerializableField)serializer.Deserialize(reader);
             }
+            FirstClick = f.FirstClick;
+            ClearField();
+            DrawField(f.X, f.Y, f.Minecount);
+            for (var i = 0; i < X; i++)
+            for (var j = 0; j < Y; j++)
+                _matrix[i, j].Panel = f.Matrix[i, j];
+            SetAll();
         }
 
         #endregion
